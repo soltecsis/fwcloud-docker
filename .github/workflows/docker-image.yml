@@ -22,7 +22,7 @@ jobs:
         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
         
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag soltecsis/fwcloud:$(date +%s)
+      run: docker build . --file Dockerfile --tag soltecsis/fwcloud
       
     - name: Push the Docker image
       run: docker push soltecsis/fwcloud
