@@ -25,4 +25,4 @@ jobs:
       run: docker build . --file Dockerfile --tag soltecsis/fwcloud:$(date +%s)
       
     - name: Push the Docker image
-      run: docker push ${{secrets.DOCKER_USER}}/fwcloud
+      run: docker push soltecsis/fwcloud
