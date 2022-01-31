@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASS: ${{secrets.DOCKER_PASS}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASS
+        
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag soltecsis/fwcloud:$(date +%s)
+      
+    - name: Push the Docker image
+      run: docker push ${{secrets.DOCKER_USER}}/fwcloud
