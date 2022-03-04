@@ -1,24 +1,24 @@
 version: "3"
 services:
 
-  mysql:
-    image: "mysql:5.7"
-    container_name: "fwcloud-mysql"
+  mariadb:
+    image: "mariadb:latest"
+    container_name: "fwcloud-mariadb"
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-      MYSQL_USER: "fwcdbusr"
-      MYSQL_PASSWORD: "fwcdbusr"
-      MYSQL_DATABASE: "fwcloud"
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+      MARIADB_USER: "fwcdbusr"
+      MARIADB_PASSWORD: "fwcdbusr"
+      MARIADB_DATABASE: "fwcloud"
     volumes:
-      - "${HOME}/fwcloud/mysql:/var/lib/mysql"
+      - "${HOME}/fwcloud/mariadb:/var/lib/mariadb"
 
   fwcloud-api:
-    image: "soltecsis/fwcloud-api:1.4.0"
+    image: "soltecsis/fwcloud-api:latest"
     depends_on:
-      - mysql
-    command: ["sh", "-c", "./wait-for-it.sh mysql:3306 -- ./run.sh"]
+      - mariadb
+    command: ["sh", "-c", "./wait-for-it.sh mariadb:3306 -- ./run.sh"]
     environment:
-      TYPEORM_HOST: mysql
+      TYPEORM_HOST: mariadb
       TYPEORM_PORT: 3306
       TYPEORM_DATABASE: "fwcloud"
       TYPEORM_USERNAME: "fwcdbusr"
@@ -34,7 +34,7 @@ services:
       - "${HOME}/fwcloud/config:/config"
 
   fwcloud-ui:
-    image: "soltecsis/fwcloud-ui:1.3.1"
+    image: "soltecsis/fwcloud-ui:latest"
     environment:
       FWC_API_URL: "http://fwcloud-api:3131"
       HTTPS_ENABLED: "false"
