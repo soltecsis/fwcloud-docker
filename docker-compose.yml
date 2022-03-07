@@ -10,10 +10,11 @@ services:
       MARIADB_PASSWORD: "fwcdbusr"
       MARIADB_DATABASE: "fwcloud"
     volumes:
-      - "${HOME}/fwcloud/mariadb:/var/lib/mariadb"
+      - "${HOME}/fwcloud/mysql:/var/lib/mysql"
 
   fwcloud-api:
     image: "soltecsis/fwcloud-api:latest"
+    container_name: "fwcloud-api"
     depends_on:
       - mariadb
     command: ["sh", "-c", "./wait-for-it.sh mariadb:3306 -- ./run.sh"]
@@ -23,9 +24,6 @@ services:
       TYPEORM_DATABASE: "fwcloud"
       TYPEORM_USERNAME: "fwcdbusr"
       TYPEORM_PASSWORD: fwcdbusr
-      CORS_WHITELIST: 'http://localhost:3030'
-    ports:
-      - 127.0.0.1:3131:3131
     volumes:
       - "${HOME}/fwcloud/DATA:/fwcloud-api/DATA"
       - "${HOME}/fwcloud/sessions:/fwcloud-api/sessions"
@@ -35,6 +33,7 @@ services:
 
   fwcloud-ui:
     image: "soltecsis/fwcloud-ui:latest"
+    container_name: "fwcloud-ui"
     environment:
       FWC_API_URL: "http://fwcloud-api:3131"
       HTTPS_ENABLED: "false"
