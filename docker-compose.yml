@@ -10,7 +10,7 @@ services:
       MARIADB_PASSWORD: "fwcdbusr"
       MARIADB_DATABASE: "fwcloud"
     volumes:
-      - "${HOME}/fwcloud/mysql:/var/lib/mysql"
+      - "./fwcloud-docker/mysql:/var/lib/mysql"
 
   fwcloud-api:
     image: "soltecsis/fwcloud-api:latest"
@@ -25,11 +25,11 @@ services:
       TYPEORM_USERNAME: "fwcdbusr"
       TYPEORM_PASSWORD: fwcdbusr
     volumes:
-      - "${HOME}/fwcloud/DATA:/fwcloud-api/DATA"
-      - "${HOME}/fwcloud/sessions:/fwcloud-api/sessions"
-      - "${HOME}/fwcloud/BACKUP:/fwcloud-api/BACKUP"
-      - "${HOME}/fwcloud/logs:/fwcloud-api/logs"
-      - "${HOME}/fwcloud/config:/config"
+      - "./fwcloud-docker/DATA:/opt/fwcloud/api/DATA"
+      - "./fwcloud-docker/sessions:/opt/fwcloud/api/sessions"
+      - "./fwcloud-docker/BACKUP:/opt/fwcloud/api/BACKUP"
+      - "./fwcloud-docker/logs:/opt/fwcloud/api/logs"
+      - "./fwcloud-docker/config:/config"
 
   fwcloud-ui:
     image: "soltecsis/fwcloud-ui:latest"
