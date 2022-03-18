@@ -10,7 +10,7 @@ services:
       MARIADB_PASSWORD: "fwcdbusr"
       MARIADB_DATABASE: "fwcloud"
     volumes:
-      - "./fwcloud-docker/mysql:/var/lib/mysql"
+      - "./fwcloud-docker/db:/var/lib/mysql"
 
   fwcloud-api:
     image: "soltecsis/fwcloud-api:latest"
@@ -25,19 +25,19 @@ services:
       TYPEORM_USERNAME: "fwcdbusr"
       TYPEORM_PASSWORD: fwcdbusr
     volumes:
-      - "./fwcloud-docker/DATA:/opt/fwcloud/api/DATA"
-      - "./fwcloud-docker/sessions:/opt/fwcloud/api/sessions"
-      - "./fwcloud-docker/BACKUP:/opt/fwcloud/api/BACKUP"
-      - "./fwcloud-docker/logs:/opt/fwcloud/api/logs"
-      - "./fwcloud-docker/config:/config"
+      - "./fwcloud-docker/api/DATA:/opt/fwcloud/api/DATA"
+      - "./fwcloud-docker/api/sessions:/opt/fwcloud/api/sessions"
+      - "./fwcloud-docker/api/BACKUP:/opt/fwcloud/api/BACKUP"
+      - "./fwcloud-docker/api/logs:/opt/fwcloud/api/logs"
+      - "./fwcloud-docker/api/config:/config"
 
   fwcloud-ui:
     image: "soltecsis/fwcloud-ui:latest"
     container_name: "fwcloud-ui"
     environment:
-      FWC_API_URL: "http://fwcloud-api:3131"
-      HTTPS_ENABLED: "false"
+      FWC_API_URL: "https://fwcloud-api:3131"
+    volumes:
+      - "./fwcloud-docker/websrv/logs:/opt/fwcloud/websrv/logs"
+      - "./fwcloud-docker/websrv/config:/config"
     ports:
       - 3030:3030
-
-    
