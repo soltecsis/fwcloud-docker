@@ -1,0 +1,59 @@
+version: "3"
+
+networks:
+  fwc-net:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: "172.${B2}.${B3}.0/24"
+    driver_opts:
+      com.docker.network.bridge.name: "fwc_${B2}${B3}"
+
+services:
+  mariadb:
+    image: "mariadb:latest"
+    container_name: "fwcloud-mariadb"
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+      MARIADB_USER: "fwcdbusr"
+      MARIADB_PASSWORD: "fwcdbusr"
+      MARIADB_DATABASE: "fwcloud"
+    volumes:
+      - "${ROOT_DIR}/${B2}${B3}/db:/var/lib/mysql"
+    networks:
+      - fwc-net
+
+  fwcloud-api:
+    image: "soltecsis/fwcloud-api:latest"
+    container_name: "fwcloud-api"
+    depends_on:
+      - mariadb
+    command: ["sh", "-c", "./wait-for-it.sh mariadb:3306 -- ./run.sh"]
+    environment:
+      TYPEORM_HOST: mariadb
+      TYPEORM_PORT: 3306
+      TYPEORM_DATABASE: "fwcloud"
+      TYPEORM_USERNAME: "fwcdbusr"
+      TYPEORM_PASSWORD: fwcdbusr
+    volumes:
+      - "${ROOT_DIR}/${B2}${B3}/api/DATA:/fwcloud-api/DATA"
+      - "${ROOT_DIR}/${B2}${B3}/api/sessions:/fwcloud-api/sessions"
+      - "${ROOT_DIR}/${B2}${B3}/api/BACKUP:/fwcloud-api/BACKUP"
+      - "${ROOT_DIR}/${B2}${B3}/api/logs:/fwcloud-api/logs"
+      - "${ROOT_DIR}/${B2}${B3}/api/config:/config"
+    networks:
+      - fwc-net
+
+  fwcloud-ui:
+    image: "soltecsis/fwcloud-ui:latest"
+    container_name: "fwcloud-ui"
+    environment:
+      FWC_API_URL: "https://fwcloud-api:3131"
+    volumes:
+      - "${ROOT_DIR}/${B2}${B3}/websrv/logs:/opt/fwcloud/websrv/logs"
+      - "${ROOT_DIR}/${B2}${B3}/websrv/config:/config"
+    ports:
+      - '${B2}${B3}:3030'
+    networks:
+      - fwc-net
