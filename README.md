@@ -1,4 +1,4 @@
-# fwcloud-docker
+# FWCloud Docker
 
 ## Getting Started
 This project contains a `docker-compose.yml` file which run a `fwcloud` instance automatically for you. This is **an example** and you can change it in order to fit your needs.
