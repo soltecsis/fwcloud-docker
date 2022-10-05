@@ -45,7 +45,7 @@ The project's name is the combination of `B2` and `B3` and will be used by means
 It will be used too for the bridge name. The docker bridge of our example will have the name: `fwc_10100`
 
  `B2` and `B3` are used too in combination with the `ROOT_DIR` environment variable for define the root directory of the docker application. In our the example, the root directory will be:
-`/opt/fwcloud-saas/10100`
+`/opt/myfwc/10100`
 
 The application exposed TCP port is the combination of `B2` and `B3` environment variables. For our example, the exposed TCP port will be: 10100.
 
