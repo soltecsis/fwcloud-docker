@@ -13,7 +13,7 @@ networks:
 services:
   mariadb:
     image: "mariadb:latest"
-    container_name: "fwcloud-mariadb"
+    container_name: "fwcloud-mariadb_${B2}${B3}"
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: "yes"
       MARIADB_USER: "fwcdbusr"
@@ -26,7 +26,7 @@ services:
 
   fwcloud-api:
     image: "soltecsis/fwcloud-api:latest"
-    container_name: "fwcloud-api"
+    container_name: "fwcloud-api_${B2}${B3}"
     depends_on:
       - mariadb
     command: ["sh", "-c", "./wait-for-it.sh mariadb:3306 -- ./run.sh"]
@@ -47,7 +47,7 @@ services:
 
   fwcloud-ui:
     image: "soltecsis/fwcloud-ui:latest"
-    container_name: "fwcloud-ui"
+    container_name: "fwcloud-ui_${B2}${B3}"
     environment:
       FWC_API_URL: "https://fwcloud-api:3131"
     volumes:
