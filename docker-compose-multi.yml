@@ -16,9 +16,9 @@ services:
     container_name: "fwcloud-mariadb_${B2}${B3}"
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: "yes"
-      MARIADB_USER: "fwcdbusr"
-      MARIADB_PASSWORD: "fwcdbusr"
       MARIADB_DATABASE: "fwcloud"
+      MARIADB_USER: "${DB_USER}"
+      MARIADB_PASSWORD: "${DB_PASS}"
     volumes:
       - "${ROOT_DIR}/${B2}${B3}/db:/var/lib/mysql"
     networks:
@@ -34,8 +34,8 @@ services:
       TYPEORM_HOST: mariadb
       TYPEORM_PORT: 3306
       TYPEORM_DATABASE: "fwcloud"
-      TYPEORM_USERNAME: "fwcdbusr"
-      TYPEORM_PASSWORD: fwcdbusr
+      TYPEORM_USERNAME: "${DB_USER}"
+      TYPEORM_PASSWORD: "${DB_PASS}"
     volumes:
       - "${ROOT_DIR}/${B2}${B3}/api/DATA:/fwcloud-api/DATA"
       - "${ROOT_DIR}/${B2}${B3}/api/sessions:/fwcloud-api/sessions"
