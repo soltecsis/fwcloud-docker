@@ -33,7 +33,7 @@ If you want to run multiple dockerized FWCloud instances on the same server you 
 
 You can use it this way:
 ```bash
-export B2=10 B3=100 ROOT_DIR="/opt/myfwc" && docker-compose -f docker-compose-multi.yml -p ${B2}${B3} up
+export B2=10 B3=100 ROOT_DIR="/opt/myfwc" DB_USER="fwcdbusr" DB_PASS="mypassword" && docker-compose -f docker-compose-multi.yml -p ${B2}${B3} up
 ```
 
 The environment variables `B2` and `B3` are the second and third bytes of the IPv4 used in the FWCloud docker instance.
